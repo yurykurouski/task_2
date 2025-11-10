@@ -1,13 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { PracticeFormPage, FormData } from '../pages/PracticeFormPage';
 import { getFormData } from './mocks/formData';
+import { PAGES } from '../constants/pages';
+
 
 test.describe('Practice Form Tests', () => {
     let practiceFormPage: PracticeFormPage;
 
     test.beforeEach(async ({ page }) => {
         practiceFormPage = new PracticeFormPage(page);
-        await practiceFormPage.navigate();
+        await practiceFormPage.navigate(PAGES.PRACTICE_FORM);
     });
 
     test('should fill complete form and verify submission', async ({ page }) => {

@@ -1,12 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { AlertsPage } from '../pages/AlertsPage';
+import { PAGES } from '../constants/pages';
+
 
 test.describe('Alerts Page Tests', () => {
     let alertsPage: AlertsPage;
 
     test.beforeEach(async ({ page }) => {
         alertsPage = new AlertsPage(page);
-        await alertsPage.navigate();
+        await alertsPage.navigate(PAGES.ALERTS);
     });
 
     test('should display and accept simple alert', async () => {
