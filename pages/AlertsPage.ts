@@ -1,7 +1,8 @@
 import { Page, Locator } from '@playwright/test';
+import { BasePage } from './BasePage';
 
-export class AlertsPage {
-    readonly page: Page;
+
+export class AlertsPage extends BasePage {
     readonly alertButton: Locator;
     readonly timerAlertButton: Locator;
     readonly confirmButton: Locator;
@@ -10,7 +11,7 @@ export class AlertsPage {
     readonly promptResult: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
 
         // Locators for all buttons on the alerts page
         this.alertButton = page.locator('#alertButton');
@@ -21,15 +22,6 @@ export class AlertsPage {
         // Result text locators
         this.confirmResult = page.locator('#confirmResult');
         this.promptResult = page.locator('#promptResult');
-    }
-
-    async navigate(): Promise<void> {
-        await this.page.goto('/alerts');
-
-        await this.page.evaluate(() => {
-            const ads = document.querySelector('#fixedban');
-            if (ads) ads.remove();
-        });
     }
 
     async clickAlertButton(): Promise<string> {

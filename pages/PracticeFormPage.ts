@@ -1,9 +1,9 @@
 import { Page, Locator } from '@playwright/test';
 import type { FormData, ModalData } from './types';
+import { BasePage } from './BasePage';
 
 
-export class PracticeFormPage {
-    readonly page: Page;
+export class PracticeFormPage extends BasePage {
     readonly firstNameInput: Locator;
     readonly lastNameInput: Locator;
     readonly emailInput: Locator;
@@ -28,7 +28,7 @@ export class PracticeFormPage {
     readonly closeButton: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
 
         // Form field locators
         this.firstNameInput = page.locator('#firstName');
@@ -55,15 +55,6 @@ export class PracticeFormPage {
         this.modalTitle = page.locator('#example-modal-sizes-title-lg');
         this.modalBody = page.locator('.modal-body');
         this.closeButton = page.locator('#closeLargeModal');
-    }
-
-    async navigate(): Promise<void> {
-        await this.page.goto('/automation-practice-form');
-
-        await this.page.evaluate(() => {
-            const ads = document.querySelector('#fixedban');
-            if (ads) ads.remove();
-        });
     }
 
     async fillFirstName(firstName: string): Promise<void> {
