@@ -9,7 +9,8 @@
     "test:firefox": "playwright test --project=firefox",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,9 @@
   "homepage": "https://github.com/yurykurouski/task_2#readme",
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "playwright": "^1.56.1"
+    "@types/node": "^24.10.0",
+    "playwright": "^1.56.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
