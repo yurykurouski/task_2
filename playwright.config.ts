@@ -11,6 +11,7 @@ export default defineConfig({
         ['json', { outputFile: 'test-results/results.json' }],
         ['list']
     ],
+    //TODO: Remove video recording
     use: {
         baseURL: 'https://demoqa.com',
         trace: 'on-first-retry',

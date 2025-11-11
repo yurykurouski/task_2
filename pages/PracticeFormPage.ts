@@ -34,12 +34,18 @@ export class PracticeFormPage extends BasePage {
         this.firstNameInput = page.locator('#firstName');
         this.lastNameInput = page.locator('#lastName');
         this.emailInput = page.locator('#userEmail');
+        //TODO: Try to use xpath locator with template literals
         this.genderMaleRadio = page.locator('label[for="gender-radio-1"]');
         this.genderFemaleRadio = page.locator('label[for="gender-radio-2"]');
         this.genderOtherRadio = page.locator('label[for="gender-radio-3"]');
         this.mobileInput = page.locator('#userNumber');
         this.dateOfBirthInput = page.locator('#dateOfBirthInput');
         this.subjectsInput = page.locator('#subjectsInput');
+        //TODO: Recheck locator, try to use xpath locator
+        // These locators are hard to maintain because they rely on static 'for' attribute values.
+        // If the checkbox IDs change, the selectors will break.
+        // It's better to use XPath with template literals (e.g., `//label[contains(text(), "${hobbyName}")]`)
+        // to make the locators more flexible and easier to update.
         this.hobbySportsCheckbox = page.locator('label[for="hobbies-checkbox-1"]');
         this.hobbyReadingCheckbox = page.locator('label[for="hobbies-checkbox-2"]');
         this.hobbyMusicCheckbox = page.locator('label[for="hobbies-checkbox-3"]');
@@ -68,7 +74,7 @@ export class PracticeFormPage extends BasePage {
     async fillEmail(email: string): Promise<void> {
         await this.emailInput.fill(email);
     }
-
+    //TODO rewrite without switch case
     async selectGender(gender: string): Promise<void> {
         switch (gender.toLowerCase()) {
             case 'male':
@@ -93,10 +99,10 @@ export class PracticeFormPage extends BasePage {
         await this.dateOfBirthInput.click();
 
         const [day, month, year] = date.split(' ');
-
+//TODO: Remove locator to the constructor
         const yearDropdown = this.page.locator('.react-datepicker__year-select');
         await yearDropdown.selectOption(year);
-
+//TODO: Remove locator to the constructor
         const monthDropdown = this.page.locator('.react-datepicker__month-select');
         const monthMap: { [key: string]: string } = {
             'Jan': '0', 'Feb': '1', 'Mar': '2', 'Apr': '3',
@@ -104,7 +110,7 @@ export class PracticeFormPage extends BasePage {
             'Sep': '8', 'Oct': '9', 'Nov': '10', 'Dec': '11'
         };
         await monthDropdown.selectOption(monthMap[month]);
-
+//TODO: Remove locator to the constructor
         const dayNumber = day.padStart(2, '0');
         const dayLocator = this.page.locator(
             `.react-datepicker__day--0${dayNumber}:not(.react-datepicker__day--outside-month)`
@@ -113,7 +119,7 @@ export class PracticeFormPage extends BasePage {
 
         await this.page.waitForTimeout(300);
     }
-
+//TODO: try to use selectOption method
     async addSubjects(subjects: string[]): Promise<void> {
         for (const subject of subjects) {
             await this.subjectsInput.scrollIntoViewIfNeeded();
@@ -123,7 +129,7 @@ export class PracticeFormPage extends BasePage {
             await this.page.waitForTimeout(200);
         }
     }
-
+//TODO rewrite without switch case
     async selectHobbies(hobbies: string[]): Promise<void> {
         for (const hobby of hobbies) {
             switch (hobby.toLowerCase()) {
