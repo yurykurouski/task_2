@@ -39,7 +39,7 @@ export class PracticeFormPage extends BasePage {
         this.stateInput = page.locator('#react-select-3-input');
         this.cityDropdown = page.locator('#city');
         this.cityInput = page.locator('#react-select-4-input');
-        this.submitButton = page.locator('#submit');
+        this.submitButton = page.getByRole('button', { name: 'Submit' });
 
         this.yearDropdown = page.locator('.react-datepicker__year-select');
         this.monthDropdown = page.locator('.react-datepicker__month-select');
@@ -61,8 +61,8 @@ export class PracticeFormPage extends BasePage {
         await this.emailInput.fill(email);
     }
     async selectGender(gender: string): Promise<void> {
-        const genderLocator = this.page.locator(`//label[contains(text(), "${gender}")]`);
-        await genderLocator.click({ force: true });
+        const genderLocator = this.page.getByText(gender, { exact: true });
+        await genderLocator.click();
     }
 
     async fillMobile(mobile: string): Promise<void> {
@@ -101,7 +101,7 @@ export class PracticeFormPage extends BasePage {
         for (const hobby of hobbies) {
             const hobbyLocator = this.page.locator(`//label[contains(text(), "${hobby}")]`);
             await hobbyLocator.scrollIntoViewIfNeeded();
-            await hobbyLocator.click({ force: true });
+            await hobbyLocator.click();
         }
     }
 
@@ -115,7 +115,7 @@ export class PracticeFormPage extends BasePage {
 
     async selectState(state: string): Promise<void> {
         await this.stateDropdown.scrollIntoViewIfNeeded();
-        await this.stateDropdown.click({ force: true });
+        await this.stateDropdown.click();
 
         await this.page.waitForTimeout(500);
         await this.page.keyboard.type(state);
@@ -126,7 +126,7 @@ export class PracticeFormPage extends BasePage {
 
     async selectCity(city: string): Promise<void> {
         await this.cityDropdown.scrollIntoViewIfNeeded();
-        await this.cityDropdown.click({ force: true });
+        await this.cityDropdown.click();
 
         await this.page.waitForTimeout(500);
         await this.page.keyboard.type(city);
@@ -136,8 +136,9 @@ export class PracticeFormPage extends BasePage {
     }
 
     async submitForm(): Promise<void> {
+        await this.removeObstructingElements();
         await this.submitButton.scrollIntoViewIfNeeded();
-        await this.submitButton.click({ force: true });
+        await this.submitButton.click();
     }
 
     async fillCompleteForm(formData: FormData): Promise<void> {

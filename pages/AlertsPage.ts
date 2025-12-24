@@ -31,7 +31,8 @@ export class AlertsPage extends BasePage {
             message = dialog.message();
             await dialog.accept();
         });
-        await this.alertButton.click({ force: true });
+        await this.removeObstructingElements();
+        await this.alertButton.click();
 
         await this.page.waitForTimeout(100);
         return message;
@@ -44,7 +45,8 @@ export class AlertsPage extends BasePage {
             message = dialog.message();
             await dialog.accept();
         });
-        await this.timerAlertButton.click({ force: true });
+        await this.removeObstructingElements();
+        await this.timerAlertButton.click();
 
         await this.page.waitForTimeout(5500);
         return message;
@@ -61,7 +63,8 @@ export class AlertsPage extends BasePage {
                 await dialog.dismiss();
             }
         });
-        await this.confirmButton.click({ force: true });
+        await this.removeObstructingElements();
+        await this.confirmButton.click();
 
         await this.page.waitForTimeout(100);
         return message;
@@ -78,7 +81,8 @@ export class AlertsPage extends BasePage {
                 await dialog.dismiss();
             }
         });
-        await this.promtButton.click({ force: true });
+        await this.removeObstructingElements();
+        await this.promtButton.click();
 
         await this.page.waitForTimeout(100);
         return message;
