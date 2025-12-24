@@ -15,7 +15,7 @@ export class BasePage {
         // Add style tag to hide ads consistently
         await this.page.addStyleTag({
             content: `
-                #fixedban, footer, iframe[src*="google"], [id*="google_ads_iframe"], .ad-plus-container {
+                #fixedban, footer, iframe[src*="google"], [id*="google_ads_iframe"], .ad-plus-container, .adsbygoogle, [id*="gpt_unit_"], ins {
                     display: none !important;
                     visibility: hidden !important;
                     height: 0 !important;
