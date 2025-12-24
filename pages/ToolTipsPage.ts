@@ -18,43 +18,48 @@ export class ToolTipsPage extends BasePage {
     }
 
     async hoverButton(): Promise<void> {
-        await this.removeObstructingElements();
-        await this.toolTipButton.scrollIntoViewIfNeeded();
-        await this.toolTipButton.hover();
-        await this.page.waitForTimeout(500);
+        await this.robustHover(this.toolTipButton);
     }
 
     async hoverInput(): Promise<void> {
-        await this.removeObstructingElements();
-        await this.toolTipTextField.scrollIntoViewIfNeeded();
-        await this.toolTipTextField.hover();
-        await this.page.waitForTimeout(500);
+        await this.robustHover(this.toolTipTextField);
     }
 
     async hoverContraryLink(): Promise<void> {
-        await this.removeObstructingElements();
-        await this.contraryLink.scrollIntoViewIfNeeded();
-        await this.contraryLink.hover();
-        await this.page.waitForTimeout(500);
+        await this.robustHover(this.contraryLink);
     }
 
     async hoverSectionLink(): Promise<void> {
-        await this.removeObstructingElements();
-        await this.sectionLink.scrollIntoViewIfNeeded();
-        await this.sectionLink.hover();
-        await this.page.waitForTimeout(500);
+        await this.robustHover(this.sectionLink);
     }
 
     async getToolTipText(): Promise<string | null> {
         const tooltip = this.tooltip.last();
-
-        await tooltip.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {
-            throw new Error('Tooltip did not appear after hover');
-        });
         const text = await tooltip.textContent();
 
         await this.page.mouse.move(0, 0);
         await tooltip.waitFor({ state: 'hidden' });
         return text;
+    }
+
+    private async robustHover(locator: Locator): Promise<void> {
+        await this.removeObstructingElements();
+        await locator.scrollIntoViewIfNeeded();
+
+        // Retry hover up to 3 times if tooltip doesn't appear
+        for (let i = 0; i < 3; i++) {
+            await locator.hover();
+            try {
+                // Wait for tooltip to appear quickly
+                await this.tooltip.last().waitFor({ state: 'visible', timeout: 2000 });
+                return; // Tooltip appeared, success
+            } catch (e) {
+                if (i === 2) throw new Error(`Tooltip did not appear after hovering ${await locator.innerText()} 3 times`);
+
+                // If failed, move mouse away and try again
+                await this.page.mouse.move(0, 0);
+                await this.page.waitForTimeout(500);
+            }
+        }
     }
 }
