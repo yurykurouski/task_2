@@ -10,7 +10,7 @@ export class BasePage {
     }
 
     async navigate(path: PAGES): Promise<void> {
-        await this.page.goto(path);
+        await this.page.goto(path, { waitUntil: 'domcontentloaded' });
 
         await this.page.evaluate(() => {
             const ads = document.querySelector('#fixedban');
