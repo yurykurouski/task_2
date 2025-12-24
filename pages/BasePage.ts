@@ -17,4 +17,16 @@ export class BasePage {
             if (ads) ads.remove();
         });
     }
+
+    async removeObstructingElements(): Promise<void> {
+        await this.page.evaluate(() => {
+            const selectors = ['#fixedban', 'footer'];
+            selectors.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.remove();
+                }
+            });
+        });
+    }
 }
