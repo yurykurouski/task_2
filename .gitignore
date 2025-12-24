@@ -5,7 +5,7 @@ playwright-report/
 playwright/.cache/
 
 # Test Data
-test-data/test-image.png
+
 
 # OS Files
 .DS_Store
