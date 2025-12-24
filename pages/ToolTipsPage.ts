@@ -47,12 +47,12 @@ export class ToolTipsPage extends BasePage {
 
     async getToolTipText(): Promise<string | null> {
         const tooltip = this.tooltip.last();
-        // Wait for visibility with a clear fail message context if it times out
+
         await tooltip.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {
             throw new Error('Tooltip did not appear after hover');
         });
         const text = await tooltip.textContent();
-        // Move mouse away to clear tooltip for next hover
+
         await this.page.mouse.move(0, 0);
         await tooltip.waitFor({ state: 'hidden' });
         return text;
